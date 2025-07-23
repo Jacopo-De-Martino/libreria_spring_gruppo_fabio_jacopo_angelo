@@ -1,91 +1,74 @@
 package com.example.demo.service;
 
-import com.example.demo.repository.AutoreRepository;
+import com.example.demo.dto.AutoreDto;
+import com.example.demo.mapper.AutoreMapper;
 import com.example.demo.model.Autore;
-
+import com.example.demo.repository.AutoreRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
-// Marca la classe come bean di servizio gestito da Spring
-@Service                                     
+@Service
+public class AutoreService {
 
-// Definizione della classe di servizio per la logica business di Libreria
-public class AutoreService {                   
+    private final AutoreRepository repo;
+    private final AutoreMapper mapper;
 
-    // Repository JPA per operazioni CRUD sugli oggetti autore
-    private final AutoreRepository repo;        
-
-    // Costruttore che riceve il repository tramite dependency injection
-    public AutoreService(AutoreRepository repo) {  
-        
-        // Inizializza il campo repo con l'istanza iniettata
-        this.repo = repo;                         
+    public AutoreService(AutoreRepository repo, AutoreMapper mapper) {
+        this.repo = repo;
+        this.mapper = mapper;
     }
 
-    // Metodo per recuperare tutti i autpro dal database
-    public List<Autore> getAll() {                
-        
-        // Crea una lista vuota di autori
-        List<Autore> lista = new ArrayList<>();   
-        
-        // Aggiunge ogni autore trovato alla lista
-        repo.findAll().forEach(lista::add);      
-        
-        // Restituisce la lista popolata di autori
-        return lista;                            
+    /**
+     * Restituisce tutti gli autori come DTO.
+     */
+    public List<AutoreDto> getAll() {
+        // findAll() qui ritorna List<Autore> grazie a JpaRepository
+        return repo.findAll().stream()
+                   .map(mapper::toDto)
+                   .collect(Collectors.toList());
     }
 
-    // Metodo per recuperare un autore per chiave primaria
-    public Optional<Autore> getById(Long id) {     
-        
-        // Restituisce Optional.empty() o Optional<autore> se presente
-        return repo.findById(id);                
+    /**
+     * Cerca un autore per ID e lo restituisce come DTO, se presente.
+     */
+    public Optional<AutoreDto> getById(Long id) {
+        return repo.findById(id)
+                   .map(mapper::toDto);
     }
 
-    
-    // Metodo per salvare un nuovo autore nel database
-    public Autore create(Autore nuovo) {            
-        
-        // Esegue l'INSERT e restituisce l'entità persistita
-        return repo.save(nuovo);                 
+    /**
+     * Crea un nuovo autore da DTO e restituisce il DTO dell'entità salvata.
+     */
+    public AutoreDto create(AutoreDto dto) {
+        Autore entity = mapper.toEntity(dto);
+        Autore saved = repo.save(entity);
+        return mapper.toDto(saved);
     }
 
-    
-    // Metodo per aggiornare un autore esistente
-    public Optional<Autore> update(Long id, Autore modificato) {  
-        
-        // Cerca il autore in base all'id
-        return repo.findById(id)                
-        
-        // Se il autore esiste, esegue la lambda per modificarlo
-                   .map(a -> {                  
-                       
-                    // Aggiorna il campo titolo
-                       a.setNome(modificato.getNome());  
-                       
-                      
-                       // Salva le modifiche e restituisce l'entità aggiornata
-                       return repo.save(a);         
-                       
-                   });                            
+    /**
+     * Aggiorna il nome di un autore esistente e restituisce il DTO aggiornato.
+     */
+    public Optional<AutoreDto> update(Long id, AutoreDto dto) {
+        return repo.findById(id)
+                   .map(existing -> {
+                       existing.setNome(dto.getNome());
+                       Autore updated = repo.save(existing);
+                       return mapper.toDto(updated);
+                   });
     }
 
-    // Metodo per eliminare un autore dal database
-    public boolean delete(Long id) {              
-        
-        // Verifica se un autore con l'id specificato esiste
-        if (repo.existsById(id)) {                
-            
-            // Esegue la cancellazione del autore
-            repo.deleteById(id);                 
-            
-            // Restituisce true se l'eliminazione è avvenuta
-            return true;                         
+    /**
+     * Elimina l'autore con l'ID specificato.
+     * @return true se l'autore esisteva ed è stato eliminato, false altrimenti.
+     */
+    public boolean delete(Long id) {
+        if (!repo.existsById(id)) {
+            return false;
         }
-        
-        // Restituisce false se il autore non esisteva
-        return false;                            
+        repo.deleteById(id);
+        return true;
     }
-}                                               
-
+}

@@ -1,3 +1,4 @@
+// src/main/java/com/example/demo/mapper/AutoreMapper.java
 package com.example.demo.mapper;
 
 import com.example.demo.dto.AutoreDto;
@@ -7,8 +8,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class AutoreMapper {
 
-   
-    public static AutoreDto toDto(Autore autore) {
+    /**
+     * Converte da entità Autore a DTO (solo id e nome).
+     */
+    public AutoreDto toDto(Autore autore) {
         if (autore == null) {
             return null;
         }
@@ -18,8 +21,10 @@ public class AutoreMapper {
                 .build();
     }
 
-    
-    public static Autore toEntity(AutoreDto dto) {
+    /**
+     * Converte da DTO ad entità Autore (senza libri).
+     */
+    public Autore toEntity(AutoreDto dto) {
         if (dto == null) {
             return null;
         }
