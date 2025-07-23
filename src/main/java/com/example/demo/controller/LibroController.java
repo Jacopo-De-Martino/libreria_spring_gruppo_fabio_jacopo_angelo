@@ -1,0 +1,58 @@
+package com.example.demo.controller;
+
+import org.springframework.http.*;
+import org.springframework.web.bind.annotation.*;
+import java.util.List;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.example.demo.model.Libro;
+import com.example.demo.service.LibroService;
+import lombok.RequiredArgsConstructor;
+
+@RestController
+@RequestMapping("/libro")
+@RequiredArgsConstructor
+public class LibroController {
+
+    private final LibroService libroService;
+    private final AutoreService autoreService;
+    private final RecensioneService recensioneService;
+
+    @GetMapping
+    public List<Libro> getAllLibro() {
+        return libroService.findAll();
+    }
+
+    @GetMapping("/{id}")
+    public Libro getLibroById(@PathVariable Long id) {
+        return libroService.findById(id);
+    }
+
+    @PostMapping
+    public Libro createLibro(@RequestBody Libro libro) {
+        return libroService.save(todo);
+    }
+
+    @PutMapping("/{id}")
+    public Libro updateTodo(@PathVariable Long id, @RequestBody Todo modificato) {
+        Libro esistente = libroService.findById(id);
+        esistente.setTitolo(modificato.getTitolo());
+        esistente.setAutore(modificato.getAutore().getId());
+        esistente.setPrezzo(modificato.getPrezzo());
+        return libroService.save(esistente);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteTodo(@PathVariable Long id) {
+        libroService.delete(id);
+        return ResponseEntity.ok("Libro
+         eliminato");
+    }
+
+    // ENDPOINT SPECIFICO: tutti i commenti legati a un ToDo
+    @GetMapping("/{id}/recensione")
+    public List<Recensione> getRecensioniByRecensiones(@PathVariable Long id) {
+        return recensioneService.findByRecensioneId(id);
+    }
+}
