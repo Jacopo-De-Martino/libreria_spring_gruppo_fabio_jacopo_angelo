@@ -6,10 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface AutoreRepository extends JpaRepository<Autore, Long> {
-    // Ora erediti:
-    // List<Autore> findAll();
-    // Optional<Autore> findById(Long id);
-    // Autore save(Autore entity);
-    // boolean existsById(Long id);
-    // void deleteById(Long id);
+  
 }

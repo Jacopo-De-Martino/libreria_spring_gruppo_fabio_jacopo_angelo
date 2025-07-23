@@ -25,7 +25,7 @@ public class AutoreService {
      * Restituisce tutti gli autori come DTO.
      */
     public List<AutoreDto> getAll() {
-        // findAll() qui ritorna List<Autore> grazie a JpaRepository
+        // findAll() ritorna List<Autore> perché usiamo JpaRepository
         return repo.findAll().stream()
                    .map(mapper::toDto)
                    .collect(Collectors.toList());
