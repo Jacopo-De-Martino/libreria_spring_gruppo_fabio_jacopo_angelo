@@ -1,7 +1,7 @@
 package com.example.demo.controller;
 
 
-import com.example.demo.model.Recensione;
+import com.example.demo.dto.RecensioneDTO;
 import com.example.demo.service.RecensioneService;
 
 import jakarta.validation.Valid;
@@ -19,17 +19,17 @@ public class RecensioneController {
     private final RecensioneService recensioneService;
 
     @GetMapping
-    public List<Recensione> getAllRecensioni() {
-        return recensioneService.findAll();
+    public List<RecensioneDTO> getAllRecensioni() {
+        return recensioneService.getAll();
     }
 
     @GetMapping("/{id}")
-    public Recensione getrecensioneById(@PathVariable Long id) {
+    public RecensioneDTO getrecensioneById(@PathVariable Long id) {
         return recensioneService.findById(id);
     }
 
     @PostMapping
-    public Recensione createRecensione(@Valid @RequestBody Recensione recensione) {
+    public RecensioneDTO createRecensione(@Valid @RequestBody RecensioneDTO recensione) {
         return recensioneService.save(recensione);
     }
 
