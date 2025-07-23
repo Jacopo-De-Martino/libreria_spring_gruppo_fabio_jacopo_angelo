@@ -18,8 +18,8 @@ public List<Recensione> findAll() {
 return recensioneRepository.findAll();
 }
 
-public List<Recensione> findByTodoId(Long todoId) {
-return recensioneRepository.findByTodoId(todoId);
+public List<Recensione> findByRecensioneId(Long RecensioneId) {
+return recensioneRepository.findByRecensioneId(RecensioneId);
 }
 
 public Recensione findById(Long id) {
