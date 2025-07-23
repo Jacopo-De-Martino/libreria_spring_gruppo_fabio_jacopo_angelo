@@ -3,11 +3,9 @@ package com.example.demo.controller;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.model.*;
-import com.example.demo.service.LibroService;
+
 import lombok.RequiredArgsConstructor;
 import com.example.demo.service.*;
 
@@ -54,6 +52,6 @@ public class LibroController {
     // ENDPOINT SPECIFICO: tutti i commenti legati a un ToDo
     @GetMapping("/{id}/recensione")
     public List<Recensione> getRecensioniByRecensiones(@PathVariable Long id) {
-        return recensioneService.findByRecensioneId(id);
+        return recensioneService.findByLibroId(id);
     }
 }

@@ -1,9 +1,6 @@
 package com.example.demo.model;
 
 
-import java.util.ArrayList;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -22,11 +19,6 @@ private Long id;
 
 @Column(nullable = false)
 private String testo;
-
-@OneToMany
-@JsonIgnore
-@JoinColumn(name = "autore_id", nullable = false)
-private ArrayList<Autore> autore;
 
 @ManyToOne
 @JoinColumn(name = "libro_id", nullable = false)

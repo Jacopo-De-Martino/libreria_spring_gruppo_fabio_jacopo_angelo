@@ -18,9 +18,10 @@ public List<Recensione> findAll() {
 return recensioneRepository.findAll();
 }
 
-public List<Recensione> findByRecensioneId(Long RecensioneId) {
-return recensioneRepository.findByRecensioneId(RecensioneId);
+public List<Recensione> findByLibroId(Long libroId) {
+    return recensioneRepository.findByLibroId(libroId);
 }
+
 
 public Recensione findById(Long id) {
 return recensioneRepository.findById(id).orElseThrow(() -> new RuntimeException("Recensione non trovata"));

@@ -38,11 +38,11 @@ public class Libro {
     private double prezzo;
 
     @ManyToOne
-    @JoinColumn(name = "id", nullable = false)
+    @JoinColumn(name = "autore_id", nullable = false)
     private Autore autore;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "autore", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "libro", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Recensione> recensioni;
 
 }
