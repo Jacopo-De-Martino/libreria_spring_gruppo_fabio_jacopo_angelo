@@ -1,7 +1,9 @@
 package com.example.demo.model;  
 
 
-import jakarta.persistence.*;  
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.*;  
 
 import java.util.List;
@@ -22,7 +24,10 @@ public class Autore {
     // Campo che rappresenta l’identificativo univoco dell’utente
     private Long id;  
 
-    @Column(nullable = false)  
+
+    @Column(nullable = false)
+    @NotBlank(message = "Il nome è obbligatorio")
+    @Size(min = 3, max = 100, message = "Il nome deve essere tra 3 e 100 caratteri")  
     // Mappa il campo su una colonna NOT NULL nel database
     private String nome;  
     // Campo che memorizza il nome dell’utente, obbligatorio

@@ -3,6 +3,8 @@ package com.example.demo.controller;
 
 import com.example.demo.model.Recensione;
 import com.example.demo.service.RecensioneService;
+
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,7 +29,7 @@ public class RecensioneController {
     }
 
     @PostMapping
-    public Recensione createRecensione(@RequestBody Recensione recensione) {
+    public Recensione createRecensione(@Valid @RequestBody Recensione recensione) {
         return recensioneService.save(recensione);
     }
 

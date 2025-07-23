@@ -14,6 +14,9 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -32,9 +35,12 @@ public class Libro {
     private Long id;
 
     @Column(name = "titolo", nullable = false)
+    @NotBlank(message = "Il titolo è obbligatorio")
+    @Size(min = 3, max = 100, message = "Il titolo deve essere tra 3 e 100 caratteri")
     private String titolo;
 
     @Column(name = "prezzo", nullable = false)
+    @NotNull(message = "Il campo prezzo non può essere nullo")
     private double prezzo;
 
     @ManyToOne

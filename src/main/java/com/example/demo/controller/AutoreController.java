@@ -2,6 +2,9 @@ package com.example.demo.controller;
 
 import com.example.demo.model.Autore;
 import com.example.demo.service.AutoreService;
+
+import jakarta.validation.Valid;
+
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
@@ -54,7 +57,7 @@ public class AutoreController {
     @PostMapping                                  
     
     // @RequestBody deserializza il JSON della richiesta in un oggetto Autore
-    public ResponseEntity<Autore> create(@RequestBody Autore nuovo) {  
+    public ResponseEntity<Autore> create(@Valid @RequestBody Autore nuovo) {  
         
         // Chiama il service per salvare il nuovo autore
         Autore creato = service.create(nuovo);     
@@ -72,7 +75,7 @@ public class AutoreController {
             @PathVariable Long id, 
             
             // Riceve l’id da URL e i dati modificati in JSON
-            @RequestBody Autore modificato) {      
+            @Valid @RequestBody Autore modificato) {      
         return service.update(id, modificato)     
         
         // Se l’update ha successo, 200 OK con il autoreo aggiornato

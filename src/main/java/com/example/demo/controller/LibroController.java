@@ -9,6 +9,8 @@ import com.example.demo.model.*;
 import lombok.RequiredArgsConstructor;
 import com.example.demo.service.*;
 
+import jakarta.validation.Valid;
+
 
 
 @RestController
@@ -30,12 +32,12 @@ public class LibroController {
     }
 
     @PostMapping
-    public Libro createLibro(@RequestBody Libro libro) {
+    public Libro createLibro(@Valid @RequestBody Libro libro) {
         return libroService.save(libro);
     }
 
     @PutMapping("/{id}")
-    public Libro updateTodo(@PathVariable Long id, @RequestBody Libro modificato) {
+    public Libro updateTodo(@PathVariable Long id, @Valid @RequestBody Libro modificato) {
         Libro esistente = libroService.findById(id);
         esistente.setTitolo(modificato.getTitolo());
         esistente.setAutore(modificato.getAutore());
